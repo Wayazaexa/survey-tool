@@ -17,38 +17,31 @@
 // B (digital pin 8 to 13)
 // C (analog input pins)
 // D (digital pins 0 to 7)
-// https://wokwi.com/projects/365067824797777921
+// https://wokwi.com/projects/377477854928800769
 
 
 #define BUTTON_PIN_1 0
 #define BUTTON_PIN_2 1
 #define BUTTON_PIN_3 2
-#define BUTTON_PIN_4 3
 
-char currentText[5] = {0};
+char displayText[17] = "Vad tycker du?"; // TODO: Change to 33 chars and use both rows, or use another display with more room for text.
 
-void HandleButtonClick(char *txt){
+void updateDisplayText(void){} // TODO: Enable setting displayText via mqtt or something. Check for bounds.
+
+void HandleButtonClick(char *txt){ // TODO: Send the result to the cloud, thingspeak or something.
     _delay_ms(200);
-    strcat(currentText, txt);
-    lcd_set_cursor(0,1);
-     lcd_puts(currentText);
-     return;
 
-    if(strlen(currentText)==4){
-        if(!strcmp("1442",currentText)){
-            lcd_printf("Correct welcome!");
-        }else{
-            lcd_printf("INCORRECT CODE");
-            _delay_ms(3000);
-            lcd_set_cursor(0,1);
-            lcd_puts("               ");
-            lcd_set_cursor(0,1);
-        }
-        currentText[0] = 0;
-    }else{
-          for(int i = 0;i <strlen(currentText);i++)          
-            lcd_puts(currentText[i]);
+    if (!strncmp(txt, "g", 1)){
+        lcd_puts("Bra. Tack!");
+    }else if (!strncmp(txt, "o", 1)){
+        lcd_puts("Okej. Tack!");
+    }else{ // !strncmp(txt, "b", 1)
+        lcd_puts("Daligt. Tack!"); // TODO: Find a solution to handling Swedish characters.
     }
+    _delay_ms(1500);
+    lcd_set_cursor(0,1);
+    lcd_puts("               ");
+    lcd_set_cursor(0,1);
 }
 
 int main(void)
@@ -56,24 +49,22 @@ int main(void)
     Set_Button_As_Input_Pullup(DDRB, PORTB, BUTTON_PIN_1);
     Set_Button_As_Input_Pullup(DDRB, PORTB, BUTTON_PIN_2);
     Set_Button_As_Input_Pullup(DDRB, PORTB, BUTTON_PIN_3);
-    Set_Button_As_Input_Pullup(DDRB, PORTB, BUTTON_PIN_4);
 
 
-    millis_init();
     sei();
 
     lcd_init();
     lcd_enable_blinking();
     lcd_enable_cursor();
 
-    
-    lcd_puts("Skriv in koden:");
+    updateDisplayText();
+    lcd_puts(displayText);
+    lcd_set_cursor(0,1);
 
     while(1) {
-        if(Button_Is_Clicked(PINB,BUTTON_PIN_1)) HandleButtonClick("1");
-        if(Button_Is_Clicked(PINB,BUTTON_PIN_2)) HandleButtonClick("2");
-        if(Button_Is_Clicked(PINB,BUTTON_PIN_3)) HandleButtonClick("3");
-        if(Button_Is_Clicked(PINB,BUTTON_PIN_4)) HandleButtonClick("4");
+        if(Button_Is_Clicked(PINB,BUTTON_PIN_1)) HandleButtonClick("g"); // good
+        if(Button_Is_Clicked(PINB,BUTTON_PIN_2)) HandleButtonClick("o"); // okay
+        if(Button_Is_Clicked(PINB,BUTTON_PIN_3)) HandleButtonClick("b"); // bad
     }
     return 0;
 }
