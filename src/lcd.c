@@ -24,9 +24,9 @@ void lcd_send(uint8_t value, uint8_t mode) {
   } else {
     LCD_PORT = LCD_PORT & ~(1 << LCD_RS);
   }
-
+ 
   //LCD_PORT = LCD_PORT & ~(1 << LCD_RW);
-
+ 
   lcd_write_nibble(value >> 4);
   lcd_write_nibble(value);
 }
