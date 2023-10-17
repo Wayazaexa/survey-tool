@@ -37,12 +37,13 @@ void puts_displayText(void)
 {
     lcd_clear();
     lcd_set_cursor(0,0);
-	lcd_puts(displayText);
+    lcd_puts(displayText);
     lcd_set_cursor(0,1);
-	lcd_puts(displayText2);
+    lcd_puts(displayText2);
 }
 
-void fetchAndSend(int field){
+void fetchAndSend(int field)
+{
     int data = 1000;
     addData("field1",data);
     data = (field == 2) ? 1 : 0;
@@ -75,7 +76,6 @@ void HandleButtonClick(int field){
         lcd_puts("Tack!");
     }
     fetchAndSend(field);
-    //_delay_ms(1500);
     puts_displayText();
 }
 

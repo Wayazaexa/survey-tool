@@ -57,7 +57,8 @@ void ESPinit(void)
 
 void waitFor(char* response)
 {
-	while(1){
+	while (1)
+	{
 		memset(buffer,0,strlen(buffer));		// Reset array
 		scanf("\n%s", buffer);					// Get message from ESP8266
 		if (strstr(buffer,response) == NULL)	// Finding specific ESP8266 response (returns NULL if not found)
