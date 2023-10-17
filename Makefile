@@ -19,7 +19,8 @@ OBJISP  := avrdude
 MCU      := atmega328p
 CPPFLAGS := -Iinclude
 CFLAGS   := -Wall -Wextra  -Wundef -pedantic -Os \
-			-std=gnu99 -DF_CPU=16000000UL -mmcu=${MCU} -DBAUD=115200
+			-std=gnu99 -DF_CPU=16000000UL -mmcu=${MCU} \
+			-DBAUD=115200 --param=min-pagesize=0
 LDFLAGS  := -mmcu=$(MCU)
 
 SRC_DIR := src
@@ -30,7 +31,7 @@ BIN := survey-tool.hex
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-.PHONY: clean isp all
+.PHONY: clean all #isp
 
 all: $(BIN_DIR)/$(BIN)
 
@@ -40,7 +41,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 %.lss: %.elf
 	$(OBJDUMP) -h -S -s $< > $@
 
-%.elf: $(OBJ)
+%.elf: $(OBJ) | $(BIN_DIR)
 	$(CC) -Wl,-Map=$(@:.elf=.map) $(LDFLAGS) -o $@ $^
 	$(AVRSIZE) $@
 	@mv $(BIN_DIR)/*.map $(OBJ_DIR)
@@ -51,9 +52,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 #isp: ${BIN}
 #	$(OBJISP) -F -V -c arduino -p ${MCU} -P ${PORT} -U flash:w:$<
 
-
 clean:
-	@rm -rv $(BIN_DIR)/$(BIN) $(OBJ_DIR)
+	@rm -rv $(BIN_DIR) $(OBJ_DIR)
 
 $(BIN_DIR) $(OBJ_DIR):
 	@mkdir -p $@
