@@ -16,21 +16,15 @@ OBJISP  := avrdude
 #OBJISP  := C:\avr\bin\avrdude
 #PORT    := \\\\.\\COM3
 ## ------------------------------- ##
-MCU     := atmega328p
-CFLAGS  := -Wall -Wextra  -Wundef -pedantic \
-		-Os -std=gnu99 -DF_CPU=16000000UL -mmcu=${MCU} -DBAUD=115200
-LDFLAGS := -mmcu=$(MCU)
+MCU      := atmega328p
+CPPFLAGS := -Iinclude
+CFLAGS   := -Wall -Wextra  -Wundef -pedantic -Os \
+			-std=gnu99 -DF_CPU=16000000UL -mmcu=${MCU} -DBAUD=115200
+LDFLAGS  := -mmcu=$(MCU)
 
 SRC_DIR := src
 BIN_DIR := bin
-
-DEBUG ?= 1
-
-ifeq ($(DEBUG), 1)
-	OBJ_DIR := bin/debug
-else
-	OBJ_DIR := bin/release
-endif
+OBJ_DIR := obj
 
 BIN := survey-tool.hex
 SRC := $(wildcard $(SRC_DIR)/*.c)
@@ -41,7 +35,7 @@ OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 all: $(BIN_DIR)/$(BIN)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -MD -o $@ -c $<
+	$(CC) $(CPPFLAGS) $(CFLAGS) -MD -o $@ -c $<
 
 %.lss: %.elf
 	$(OBJDUMP) -h -S -s $< > $@
