@@ -30,7 +30,7 @@
 char displayText[17] = "Vad tycker du";
 char displayText2[17] = "om lektionen?";
 
-// TODO: Enable setting displayText via mqtt or something (check for bounds)
+// TODO: Enable setting displayText and lesson id via mqtt or something (check for bounds)
 void updateDisplayText(void) {}
 
 void puts_displayText(void)
@@ -44,7 +44,7 @@ void puts_displayText(void)
 
 void fetchAndSend(int field)
 {
-    int data = 1000;
+    int data = 1000;        // Placeholder, field1 is supposed to contain data about what lesson it is (a lesson-id if you will)
     addData("field1", data);
     data = (field == 2) ? 1 : 0;
     addData("field2", data);
