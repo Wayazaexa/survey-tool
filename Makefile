@@ -31,7 +31,7 @@ BIN := survey-tool.hex
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-.PHONY: clean all #isp
+.PHONY: clean fresh all #isp
 
 all: $(BIN_DIR)/$(BIN)
 
@@ -53,6 +53,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 #	$(OBJISP) -F -V -c arduino -p ${MCU} -P ${PORT} -U flash:w:$<
 
 clean:
+	@rm -rv $(OBJ_DIR)
+
+fresh:
 	@rm -rv $(BIN_DIR) $(OBJ_DIR)
 
 $(BIN_DIR) $(OBJ_DIR):
