@@ -33,8 +33,8 @@ The students would press one of the three buttons.
 ## Requirements
 The requirements given to us when we got the assignment.
 ### Software
-- C code preferably, but C++ is fine
-- No GPL-licensed code/libraries
+- C code
+- No GPL-licensed code/libraries (for instance no Arduino libraries)
 
 ### Hardware
 - ATmega328P preferably, but a full Arduino dev board or ESP32 is fine
