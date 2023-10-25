@@ -11,13 +11,13 @@ Basic survey tool built with an ATmega328P MCU, three buttons (green, yellow, an
 The screen displays a question that can be answered by pressing any of the buttons.\
 The data then gets uploaded to thingspeak where it can be analysed.
 
-This is a school project where the biggest part of the goal was to learn about tools and hardware.±
+This is a school project where the biggest part of the goal was to learn about tools and hardware.\
 Some of the things we learned:
 * We learned more about bare-metal coding for Arduino
 * It was the first time we used a secondary chip to handle WiFi
 * It was the first time we used Wokwi, which was a nice simulator to work with, albeit a bit slow, and as far as we understand (and experienced); the free version has a limit on the WiFi, which meant adding more (and longer) delays than we would have used if we were working directly on the hardware
 * It was the first time we used Thingspeak as a database, and it seems very useful for projects like this
-* We also learned more about Makefiles as we dug into that in order to clean up the one that came with the avrwifi-repo and make it more easily understandable for us (it could still be better, but we're happy with the changes we managed to implement)
+* We also learned more about Makefiles as we dug into that in order to clean up the one that came with the avrwifi-repo and make it more easily understandable for us (it could still be better, but we're happy with the changes we made to it)
 
 Based on [native-blink](https://github.com/aspcodenet/native-blink/) and [avrwifi (testing branch)](https://github.com/aspcodenet/avrwifi/tree/testing).
 
